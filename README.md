@@ -6,6 +6,8 @@ This package manages scripts that collectively launch in-vehicle software manage
 ## Node Graph
 ![node graph](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eve-autonomy/proj_launch/docs/node_graph.pu)
 
+<details><summary>List of repositories</summary><div>
+
 - Nodes
   - System State management:
     - [/autoware_state_machine](https://github.com/eve-autonomy/autoware_state_machine)
@@ -45,6 +47,8 @@ This package manages scripts that collectively launch in-vehicle software manage
   - HMI control:
     - Sound control:
       - [ad_sound.default](https://github.com/eve-autonomy/ad_sound.default)
+
+</div></details>
 
 ## Environment variables
 
