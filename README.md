@@ -6,10 +6,10 @@ This package manages in-vehicle nodes especially for state management, HMI contr
 ## Node Graph
 ![node graph](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eve-autonomy/proj_launch/docs/node_graph.pu)<br>
 Note: This package manages the red colored nodes.
-<details><summary>List of repositories</summary><div>
+<details><summary>List of managing repositories</summary><div>
 
 - Nodes
-  - System State management:
+  - State management:
     - [/autoware_state_machine](https://github.com/eve-autonomy/autoware_state_machine)
   - HMI control:
     - Sound control:
@@ -23,24 +23,24 @@ Note: This package manages the red colored nodes.
     - Button control:
       - [/button_manager](https://github.com/eve-autonomy/button_manager)
       - [/engage_srv_converter](https://github.com/eve-autonomy/engage_srv_converter)
-  - Delivery reservation app cooperation:
+  - Reserved-delivery connection:
     - [/go_interface](https://github.com/eve-autonomy/go_interface)
-  - V2I infrastructure cooperation:
+  - V2I connection:
     - [/v2i_interface](https://github.com/eve-autonomy/v2i_interface)
 
 - Message definition
-  - System State management:
+  - State management:
     - [autoware_state_machine_msgs](https://github.com/eve-autonomy/autoware_state_machine_msgs)
   - HMI control:
     - Sound control:
       - [audio_driver_msgs](https://github.com/eve-autonomy/audio_driver_msgs)
-  - Delivery reservation app cooperation:
+  - Reserved-delivery connection:
     - [go_interface](https://github.com/eve-autonomy/go_interface)
 
 - Parameters
-  - Delivery reservation app cooperation:
+  - Reserved-delivery connection:
     - [go_interface_params.default](https://github.com/eve-autonomy/go_interface_params.default)
-  - V2I infrastructure cooperation:
+  - V2I connection:
     - [v2i_interface_params.default](https://github.com/eve-autonomy/v2i_interface_params.default)
 
 - Dataset
@@ -56,13 +56,13 @@ Note: This package manages the red colored nodes.
 |:---|:----------|
 |OPR_MODE_DELY_RSV|Select one of the operation modes to the delivery reserve application `/go_interface`  from the followings; <br>  `product`, `server_test`, `local_test`, `not_use` <br> This parameter works as [`operation_mode`](https://github.com/eve-autonomy/go_interface#launch-arguments).|
 |ACCESS_TOKEN_DELY_RSV|Specify an access token of the reserve application `/go_interface`. This setting is reflected in the value of [`access_token`](https://github.com/eve-autonomy/go_interface#launch-arguments) in go_interface.|
-|AD_SOUND_LANGUAGE|Specifies the language of the audio file. This setting is reflected in the value of [`lang`](https://github.com/eve-autonomy/ad_sound_manager#launch-arguments) in ad_sound_manager.|
+|AD_SOUND_LANGUAGE|Select a sound language in `ad_sound_manager`. This parameter is same to directory name of the node and works as [`lang`](https://github.com/eve-autonomy/ad_sound_manager#launch-arguments) in ad_sound_manager.|
 
 ## Launch arguments
 
 |Name|Description|
 |:---|:----------|
-|use_overridable_vehicle|Whether the vehicle can transfer driving authority by the operator's brakes.|
+|use_overridable_vehicle|If autonomous driving vehicle has a function of override, set this parameter as `TRUE`. Otherwise set as `FALSE`.|
 |operation_mode_v2i_infra|Select the operation mode of the V2I interface from the followings; <br>`product`, `local_test` <br> This parameter works as [`operation_mode`](https://github.com/eve-autonomy/v2i_interface#launch-arguments).|
 |operation_mode_delivery_reservation|Command line of the launcher for overriding `OPR_MODE_DELY_RSV`[^1].|
 |access_token_delivery_reservation|Command line of the launcher for overriding `ACCESS_TOKEN_DELY_RSV`[^1].|
