@@ -64,9 +64,9 @@ This package manages scripts that collectively launch in-vehicle software manage
 |:---|:----------|
 |use_overridable_vehicle|Whether the vehicle can transfer driving authority by the operator's brakes.|
 |operation_mode_v2i_infra|Select the operation mode of the v2i interface from the following; `product`, `local_test`. This setting is reflected in the value of [`operation_mode`](https://github.com/eve-autonomy/v2i_interface#launch-arguments) in v2i_interface.|
-|operation_mode_delivery_reservation|It is basically the same as `OPR_MODE_DELY_RSV`[^1].|
-|access_token_delivery_reservation|It is basically the same as `ACCESS_TOKEN_DELY_RSV`[^1].|
-|ad_sound_language|It is basically the same as `AD_SOUND_LANGUAGE`[^1].|
+|operation_mode_delivery_reservation|Command line of the launcher overriding `OPR_MODE_DELY_RSV`[^1].|
+|access_token_delivery_reservation|Command line of the launcher overriding `ACCESS_TOKEN_DELY_RSV`[^1].|
+|ad_sound_language|Command line of the launcher overriding `AD_SOUND_LANGUAGE`[^1].|
 
 [^1]: You can execute it by ignoring the environment variable setting by specifying an arbitrary value for this variable.
 
