@@ -1,0 +1,119 @@
+@startuml
+rectangle "autoware" {
+  usecase "/awapi/awapi_awiv_adapter_node"
+  usecase "/control/vehicle_cmd_gate"
+}
+
+rectangle "web.auto" {
+  cloud "FMS (Fleet management system)" as FMS
+  usecase "Agent (Interface for FMS)" as Agent
+}
+rectangle "user-defined/saas" {
+  cloud "on-demand delivery apps" as DeliveryApp
+}
+
+rectangle "user-defined/in-vehicle-hardware" {
+  node "broadcasting device"
+  node "speaker"
+  node "ad_status_lamp"
+  node "warning_lamp"
+  node "emergency_lamp"
+  node "delivery_reservation_lamp"
+  node "engage_button"
+  node "delivery_reservation_button"
+}
+
+rectangle "user-defined/infrastructure" {
+  node "v2i controller[0]" as v2ictl_0
+  node "v2i controller[1]" as v2ictl_1
+  node "v2i controller[n]" as v2ictl_n
+  node "v2i infrastructure[0]" as v2ihw_0
+  node "v2i infrastructure[1]" as v2ihw_1
+  node "v2i infrastructure[n]" as v2ihw_n
+}
+
+usecase "v2i_interface" #LightCoral
+usecase "/go_interface" #LightCoral
+usecase "/autoware_state_machine" #LightCoral
+usecase "/ad_sound_manager" #LightCoral
+usecase "/sound_voice_alarm/audio_driver" #LightCoral
+usecase "/sound_bgm/audio_driver" #LightCoral
+usecase "/ad_status_lamp_manager" #LightCoral
+usecase "/engage_button_manager" #LightCoral
+usecase "/delivery_reservation_button_manager" #LightCoral
+usecase "/engage_srv_converter" #LightCoral
+usecase "/delivery_reservation_lamp_manager" #LightCoral
+usecase "/warning_lamp_manager" #LightCoral
+
+usecase "/dio_ros_driver"
+
+(v2i_interface) <- (/awapi/awapi_awiv_adapter_node) : /awapi/tmp/infrastructure_commands
+(v2i_interface) -> (/awapi/awapi_awiv_adapter_node) : /system/v2x/virtual_traffic_light_states
+(v2i_interface) --> (broadcasting device)
+(v2i_interface) <-- (broadcasting device) : UDP
+(broadcasting device) --> (v2ictl_0)
+(broadcasting device) <-- (v2ictl_0)
+(broadcasting device) --> (v2ictl_1)
+(broadcasting device) <-- (v2ictl_1)
+(broadcasting device) --> (v2ictl_n)
+(broadcasting device) <-- (v2ictl_n) : wireless communication
+
+(/awapi/awapi_awiv_adapter_node) -[hidden] (/control/vehicle_cmd_gate)
+(/awapi/awapi_awiv_adapter_node) --> (/ad_sound_manager) : /awapi/vehicle/get/status
+(/autoware_state_machine) --> (/ad_sound_manager)
+(/autoware_state_machine) <-- (/ad_sound_manager)
+(/ad_sound_manager) --> (/sound_voice_alarm/audio_driver)
+(/ad_sound_manager) <-- (/sound_voice_alarm/audio_driver)
+(/ad_sound_manager) --> (/sound_bgm/audio_driver)
+(/sound_voice_alarm/audio_driver) --> (speaker)
+(/sound_bgm/audio_driver) --> (speaker)
+
+(/autoware_state_machine) --> (/ad_status_lamp_manager)
+(/ad_status_lamp_manager) --> (/dio_ros_driver) : /dio/dout0
+
+(/delivery_reservation_button_manager) <-- (/dio_ros_driver): /dio/din1
+(/autoware_state_machine) <-- (/delivery_reservation_button_manager)
+(/engage_button_manager) <-- (/dio_ros_driver): /dio/din0
+(/engage_srv_converter) <-- (/engage_button_manager)
+
+(/autoware_state_machine) --> (/delivery_reservation_lamp_manager)
+(/delivery_reservation_lamp_manager) --> (/dio_ros_driver) : /dio/dout3
+
+(/autoware_state_machine) <-- (/engage_srv_converter)
+(/autoware_state_machine) --> (/engage_srv_converter) 
+(/control/vehicle_cmd_gate) <-- (/autoware_state_machine) : /api/autoware/set/engage\n /api/autoware/set/start_request
+(/control/vehicle_cmd_gate) --> (/autoware_state_machine) 
+
+(DeliveryApp) -> (FMS)
+(DeliveryApp) <- (FMS)
+(FMS) --> (Agent)
+(FMS) <-- (Agent)
+(/go_interface) <- (Agent): /webauto/vehicle_info
+(DeliveryApp) -->  (/go_interface) : /api/vehicle_status (REST API)
+(/go_interface) --> (DeliveryApp)
+(/go_interface) --> (/autoware_state_machine)
+(/go_interface) <-- (/autoware_state_machine)
+
+(v2ictl_0) -[hidden] (v2ictl_1)
+(v2ictl_1) -[hidden] (v2ictl_n)
+
+(v2ictl_0) --> (v2ihw_0)
+(v2ictl_0) <-- (v2ihw_0)
+(v2ictl_1) --> (v2ihw_1)
+(v2ictl_1) <-- (v2ihw_1)
+(v2ictl_n) --> (v2ihw_n)
+(v2ictl_n) <-- (v2ihw_n) : GPIO communication
+
+(/autoware_state_machine) --> (/warning_lamp_manager)
+(/warning_lamp_manager) --> (/dio_ros_driver) : /dio/dout2
+(/warning_lamp_manager) --> (/dio_ros_driver) : /dio/dout1
+
+(/dio_ros_driver) --> (ad_status_lamp)
+(/dio_ros_driver) --> (warning_lamp)
+(/dio_ros_driver) --> (emergency_lamp)
+(/dio_ros_driver) --> (delivery_reservation_lamp)
+(/dio_ros_driver) <-- (engage_button)
+(/dio_ros_driver) <-- (delivery_reservation_button)
+
+(/awapi/awapi_awiv_adapter_node) --> (/autoware_state_machine) : /awapi/autoware/get/status\n/awapi/vehicle/get/status
+@enduml
