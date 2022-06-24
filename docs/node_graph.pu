@@ -49,8 +49,8 @@ usecase "/dio_ros_driver"
 
 (v2i_interface) <- (/awapi/awapi_awiv_adapter_node) : /awapi/tmp/infrastructure_commands
 (v2i_interface) -> (/awapi/awapi_awiv_adapter_node) : /system/v2x/virtual_traffic_light_states
-(v2i_interface) --> (broadcasting device)
-(v2i_interface) <-- (broadcasting device) : UDP
+(v2i_interface) --> (broadcasting device) : v2i command\n(UDP)
+(v2i_interface) <-- (broadcasting device) : v2i status\n(UDP)
 (broadcasting device) --> (v2ictl_0)
 (broadcasting device) <-- (v2ictl_0)
 (broadcasting device) --> (v2ictl_1)
@@ -89,8 +89,8 @@ usecase "/dio_ros_driver"
 (FMS) --> (Agent)
 (FMS) <-- (Agent)
 (/go_interface) <- (Agent): /webauto/vehicle_info
-(DeliveryApp) -->  (/go_interface) : /api/vehicle_status (REST API)
-(/go_interface) --> (DeliveryApp)
+(DeliveryApp) -->  (/go_interface) : result of GET API
+(/go_interface) --> (DeliveryApp) : request of GET API\nrequest of PATCH API
 (/go_interface) --> (/autoware_state_machine)
 (/go_interface) <-- (/autoware_state_machine)
 
