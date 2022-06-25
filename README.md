@@ -4,7 +4,7 @@
 This package manages in-vehicle nodes especially for state management, HMI control, delivery reservation, and Vehicle to Infrastructure (V2I) connection.
 
 ## Node Graph
-![node graph](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eve-autonomy/proj_launch/main/docs/node_graph.pu)<br>
+![node graph](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/eve-autonomy/proj_launch/main/docs/node_graph.pu)<br>
 Note: This package manages the red colored nodes.
 <details><summary>List of managing repositories</summary><div>
 
