@@ -87,4 +87,5 @@
   <include file="$(find-pkg-share cargo_loading_service)/launch/cargo_loading_service.launch.py" />
   <include file="$(find-pkg-share in_parking_state_manager)/launch/in_parking_state_manager.launch.xml" />
   <include file="$(find-pkg-share in_parking_task_manager)/launch/in_parking_task_manager.launch.xml" />
+  <include file="$(find-pkg-share v2i_command_muxer)/launch/v2i_command_muxer.launch.xml" />
 </launch>
